@@ -2,19 +2,19 @@ const {user} = require("../../models");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const avatarDefault = require("../utils/avatar");
+// const avatarDefault = require("../utils/avatar");
 
 // register session
 exports.register = async (req, res) => {
   const schema = Joi.object({
     fullName: Joi.string().min(4).required(),
     email: Joi.string().email().min(8).required(),
-    password: Joi.string().min(8).required(),
+    password: Joi.string().min(7).required(),
     status: Joi.string().required(),
     gender: Joi.string().required(),
-    phone: Joi.string().min(6).required(),
-    city: Joi.string().min(6).required(),
-    avatar: Joi.string().required(),
+    phone: Joi.string().min(12).required(),
+    city: Joi.string().required(),
+    avatar: Joi.string(),
   });
 
   const {error} = schema.validate(req.body);
@@ -27,7 +27,9 @@ exports.register = async (req, res) => {
 
   try {
     const allUser = await user.findAll();
-    const nameExist = allUser.find((item) => req.body.name === item.name);
+    const nameExist = allUser.find(
+      (item) => req.body.fullName === item.fullName
+    );
     const emailExist = allUser.find((item) => req.body.email === item.email);
 
     if (nameExist) {
@@ -46,9 +48,9 @@ exports.register = async (req, res) => {
 
     const {fullName, email, status, gender, phone, city, avatar} = req.body;
 
-    const randomAvatar = Math.floor(Math.random() * avatarDefault.length);
+    // const randomAvatar = Math.floor(Math.random() * avatarDefault.length);
 
-    const path_avatar = process.env.DEV_PATH_AVATAR;
+    // const path_avatar = process.env.DEV_PATH_AVATAR;
     const newUser = await user.create({
       fullName,
       email,
@@ -57,7 +59,7 @@ exports.register = async (req, res) => {
       phone,
       city,
       status,
-      photo: path_avatar + avatarDefault[randomAvatar],
+      avatar, //path_avatar + avatarDefault[randomAvatar],
     });
 
     const token = jwt.sign(
@@ -69,11 +71,12 @@ exports.register = async (req, res) => {
     res.status(200).send({
       status: "success",
       user: {
-        name: newUser.name,
+        fullName: newUser.fullName,
         token,
       },
     });
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       status: "failed",
       message: "Internal server error",

@@ -10,7 +10,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       collection.belongsTo(models.genre, {
         foreignKey: {
-          name: "idGenre",
+          name: "genreId",
+        },
+      });
+      collection.belongsTo(models.tb_book, {
+        foreignKey: {
+          name: "bookId",
+        },
+      });
+      collection.belongsTo(models.user, {
+        foreignKey: {
+          name: "userId",
         },
       });
     }
