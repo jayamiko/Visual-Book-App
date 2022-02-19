@@ -3,7 +3,7 @@ const multer = require("multer");
 exports.uploadPDF = (FilePDF, location) => {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "upload");
+      cb(null, "uploads");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + "-" + file.originalname.replace(/\s/g, ""));
@@ -58,7 +58,7 @@ exports.uploadPDF = (FilePDF, location) => {
 exports.uploadImage = (imageFile, location) => {
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "upload");
+      cb(null, "uploads");
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + "-" + file.originalname.replace(/\s/g, ""));

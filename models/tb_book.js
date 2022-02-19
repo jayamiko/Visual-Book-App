@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      tb_book.belongsTo(models.genre, {
+      tb_book.hasMany(models.genre, {
         as: "genres",
         foreignKey: {
           name: "idGenre",
