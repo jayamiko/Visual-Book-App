@@ -138,15 +138,15 @@ exports.getSearch = async (req, res) => {
 exports.addBook = async (req, res) => {
   const schema = Joi.object({
     title: Joi.string().min(4).required(),
-    idGenre: Joi.number(),
-    publishIn: Joi.date(),
+    idGenre: Joi.number().required(),
+    publishIn: Joi.date().required(),,
     pages: Joi.number().min(1).required(),
     rating: Joi.number().min(1),
     reviews: Joi.number().min(1),
-    isbn: Joi.number().min(9).max(15),
+    isbn: Joi.number().min(9).max(15).required(),,
     author: Joi.string().min(3).required(),
     status: Joi.string().required(),
-    price: Joi.string(),
+    price: Joi.string().required(),,
     description: Joi.string(),
   });
 
@@ -171,13 +171,7 @@ exports.addBook = async (req, res) => {
       where: {
         id: newBook.id,
       },
-      include: {
-        model: genre,
-        as: "genres",
-        attributes: {
-          exclude: ["createdAt", "updatedAt"],
-        },
-      },
+
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },

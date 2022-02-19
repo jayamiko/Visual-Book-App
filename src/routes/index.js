@@ -22,6 +22,11 @@ const {
   addGenre,
   deleteGenre,
 } = require("../controllers/genre");
+const {
+  getCollection,
+  addCollection,
+  deleteCollection,
+} = require("../controllers/collection");
 
 const {register, login, checkAuth} = require("../controllers/auth");
 
@@ -49,6 +54,11 @@ router.get("/genres", getGenres);
 router.get("/genre/:id", getGenre);
 router.post("/genre", auth, adminOnly, addGenre);
 router.delete("/genre/:id", auth, adminOnly, deleteBook);
+
+// Route Collections
+router.get("/collection/:id", auth, getCollection);
+router.post("/collection", auth, addCollection);
+router.delete("/collection/:id", auth, deleteCollection);
 
 // Route Auth
 router.post("/login", login);

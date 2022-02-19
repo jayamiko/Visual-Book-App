@@ -2,7 +2,7 @@ const {user} = require("../../models");
 const Joi = require("joi");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const avatarDefault = require("../utils/avatar");
+const avatarDefault = require("../utils/avatar");
 
 // register session
 exports.register = async (req, res) => {
@@ -48,9 +48,9 @@ exports.register = async (req, res) => {
 
     const {fullName, email, status, gender, phone, city, avatar} = req.body;
 
-    // const randomAvatar = Math.floor(Math.random() * avatarDefault.length);
+    const randomAvatar = Math.floor(Math.random() * avatarDefault.length);
 
-    // const path_avatar = process.env.DEV_PATH_AVATAR;
+    const path_avatar = process.env.DEV_PATH_AVATAR;
     const newUser = await user.create({
       fullName,
       email,
@@ -59,7 +59,7 @@ exports.register = async (req, res) => {
       phone,
       city,
       status,
-      avatar, //path_avatar + avatarDefault[randomAvatar],
+      avatar: path_avatar + avatarDefault[randomAvatar],
     });
 
     const token = jwt.sign(

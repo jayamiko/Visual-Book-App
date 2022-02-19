@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       tb_book.hasMany(models.genre, {
         as: "genres",
         foreignKey: {
-          name: "idGenre",
+          name: "id",
         },
       });
     }
